@@ -1,0 +1,174 @@
+Merc
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Services - Elonga Stark</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap');
+
+    body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      background: url('https://images.unsplash.com/photo-1498050108023-c5249f4df085') no-repeat center center fixed;
+      background-size: cover;
+      color: white;
+    }
+
+    header {
+      background: rgba(0, 0, 0, 0.7);
+      padding: 30px;
+      text-align: center;
+      font-size: 2.5rem;
+      font-weight: 700;
+      letter-spacing: 2px;
+    }
+
+    .photo {
+      width: 150px;
+      border-radius: 50%;
+      margin: 20px auto;
+      display: block;
+      border: 4px solid #0ff;
+    }
+
+    .services {
+      max-width: 900px;
+      margin: auto;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+
+gap: 20px;
+    }
+
+    .service {
+      background: rgba(0, 0, 0, 0.6);
+      padding: 20px;
+      border-radius: 10px;
+      border-left: 4px solid #0ff;
+      transition: 0.3s;
+    }
+
+    .service:hover {
+      border-color: #f0f;
+    }
+
+    .service h2 {
+      margin: 0 0 10px;
+      color: #0ff;
+    }
+
+    .service p {
+      margin: 10px 0;
+      color: #ccc;
+    }
+
+    .details {
+      display: none;
+      margin-top: 10px;
+      color: #eee;
+      animation: fade 0.5s ease-in-out;
+    }
+
+    .btn {
+      background: #0ff;
+      color: #000;
+      padding: 8px 16px;
+      border: none;
+      border-radius: 25px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: 0.3s;
+    }
+
+    .btn:hover {
+      background: #f0f;
+      color: white;
+    }
+
+    footer {
+      text-align: center;
+      padding: 30px 10px;
+      background: rgba(0, 0, 0, 0.8);
+      font-size: 1rem;
+      margin-top: 50px;
+    }
+
+    @keyframes fade {
+      from {opacity: 0;}
+      to {opacity: 1;}
+    }
+  </style>
+</head>
+<body>
+
+  <header>SERVICES</header>
+
+  <img src="https://www.facebook.com/photo.php?fbid=1420147329420545&set=a.130489841719640&type=3&mibextid=rS40aB7S9Ucbxw6v" alt="Elonga Stark" class="photo">
+
+  <div class="services">
+
+    <div class="service">
+      <h2>Création de sites web professionnels</h2>
+      <p>Sites modernes, rapides, responsives.</p>
+<button class="btn" onclick="toggleDetails(this)">Voir plus</button>
+      <div class="details">
+        <p>Développement de sites vitrines ou e-commerce avec design sur mesure, SEO optimisé, sécurité renforcée, performance, animations CSS/JS avancées.</p>
+      </div>
+    </div>
+
+    <div class="service">
+      <h2>Création de cartes embarquées</h2>
+      <p>Interfaces interactives sur matériel embarqué.</p>
+      <button class="btn" onclick="toggleDetails(this)">Voir plus</button>
+      <div class="details">
+        <p>Développement d'interfaces graphiques embarquées pour écrans LCD/TFT, avec interactions tactiles, firmware C++/Python, design UI embarqué.</p>
+      </div>
+    </div>
+
+    <div class="service">
+      <h2>Promotion des musiciens</h2>
+      <p>Stratégies de visibilité et marketing musical.</p>
+      <button class="btn" onclick="toggleDetails(this)">Voir plus</button>
+      <div class="details">
+        <p>Création de sites musicaux, intégration streaming (Spotify, Apple), clips vidéo, réseaux sociaux, branding d’artiste, tunnels de promotion.</p>
+      </div>
+    </div>
+
+    <div class="service">
+      <h2>Promotion des business (marketing)</h2>
+      <p>Développez votre audience et vos ventes.</p>
+<button class="btn" onclick="toggleDetails(this)">Voir plus</button>
+      <div class="details">
+        <p>Campagnes ciblées (Google/Facebook), landing pages, newsletters, visuels pro, SEO, CRM automatisé, analytics & tracking marketing.</p>
+      </div>
+    </div>
+
+    <div class="service">
+      <h2>Écriture de scénarios</h2>
+      <p>Scripts pour vidéos, podcasts, storytelling.</p>
+      <button class="btn" onclick="toggleDetails(this)">Voir plus</button>
+      <div class="details">
+        <p>Conception narrative pour courts-métrages, présentations, films ou podcasts. Structure, rythme, émotion, punchlines captivantes.</p>
+      </div>
+    </div>
+
+  </div>
+
+  <footer>
+    <h3>ELONGA STARK</h3>
+    <p>📞 084 034 4307</p>
+    <p>📧 elongastarks@gmail.com</p>
+  </footer>
+
+  <script>
+    function toggleDetails(button) {
+      const detail = button.nextElementSibling;
+      detail.style.display = detail.style.display === "block" ? "none" : "block";
+    }
+  </script>
+
+</body>
+</html>
