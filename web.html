@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Créateur Web - Elonga Stark</title>
+<link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&family=Poppins:wght@700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <script src="https://kit.fontawesome.com/a2d9d5a64c.js" crossorigin="anonymous"></script>
+
+<style>
+:root {
+  --bg-dark: #0b1016;
+  --card-dark: #141c28;
+  --text-light: #e6eef8;
+  --muted: #9fb2c8;
+  --accent-blue: #2aa4ff;
+  --accent-orange: #ff7a2d;
+  --radius: 12px;
+  --shadow: 0 6px 18px rgba(0,0,0,0.5);
+}
+
+
+* { box-sizing: border-box; }
+body { margin: 0; font-family:"Open Sans", sans-serif; background:var(--bg-dark); color:var(--text-light); scroll-behavior:smooth; }
+a { text-decoration:none; color:inherit; }
+
+header{
+  position:fixed; top:0; left:0; right:0; height:64px;
+  display:flex; justify-content:space-between; align-items:center;
+  padding:0 1rem; background:rgba(20,28,40,0.95); backdrop-filter:blur(6px);
+  z-index:1000; border-bottom:1px solid rgba(255,255,255,0.05);
+}
+header .logo{
+  display:flex; align-items:center;
+  font-family:'Poppins',sans-serif; font-weight:700; font-size:1rem;
+  background:linear-gradient(135deg,var(--accent-blue),var(--accent-orange));
+  color:#071523; padding:0.4rem 0.6rem; border-radius:8px;
+}
+.toplinks { display:none; gap:1rem; }
+.hambtn{ display:flex; font-size:1.3rem; background:transparent; border:none; color:var(--text-light); cursor:pointer; }
+
+/* --- Side Menu --- */
+.side-menu{
+  position:fixed; top:0; right:-100%; width:80%; max-width:350px; height:100vh;
+  background:var(--card-dark); padding:1.6rem; display:flex; flex-direction:column; gap:1rem;
+  box-shadow:var(--shadow); transition:right 0.3s ease; z-index:1100;
+}
+.side-menu.open { right:0; }
+.side-menu .menu-links a{
+  padding:0.75rem 1rem; color:var(--text-light); border-radius:10px; font-weight:600;
+}
+.side-menu .menu-links a:hover{
+  color: var(--accent-orange); background: rgba(255,255,255,0.02);
+}
+.backdrop{ position:fixed; inset:0; background:rgba(2,6,12,0.6); opacity:0; pointer-events:none; transition:opacity .25s; z-index:1050; }
+.backdrop.show{ opacity:1; pointer-events:auto; }
+
+/* --- Hero / Intro --- */
+.hero{
+  padding:8rem 1rem 4rem; text-align:center;
+}
+.hero h2{
+  font-family:'Poppins',sans-serif; font-size:2rem; margin-bottom:1rem; color:var(--accent-blue);
+}
+.hero p{ color:var(--muted); max-width:650px; margin:0 auto 2rem; line-height:1.5; }
+.hero .btn{
+  padding:0.8rem 1.2rem; border-radius:var(--radius); border:none; font-weight:700; min-width:160px; margin:0.3rem; cursor:pointer;
+}
+.btn-primary{ background: linear-gradient(90deg,var(--accent-blue),#1fb2ff); color:#021323; }
+.btn-secondary{ background: linear-gradient(90deg,var(--accent-orange),#ff8f52); color:#071018; }
+
+
+.services{
+  padding:3rem 1rem; text-align:center; max-width:900px; margin:0 auto;
+}
+.services h3{ font-family:'Poppins',sans-serif; font-size:1.5rem; margin-bottom:1rem; }
+.services .service-list{ display:flex; flex-direction:column; gap:1rem; }
+.service-item{
+  background:var(--card-dark); padding:1rem; border-radius:var(--radius);
+  box-shadow:var(--shadow); text-align:left;
+}
+.service-item h4{ margin:0 0 0.5rem; font-family:'Poppins',sans-serif; color:var(--accent-orange); }
+.service-item p{ margin:0; color:var(--muted); font-size:0.95rem; }
+
+
+.projects {
+  padding: 40px 20px;
+  background: #0d1117;
+  text-align: center;
+}
+
+.projects h3 {
+  font-size: 1.6rem;
+  font-weight: 600;
+  color: #f5f7fa;
+  letter-spacing: 0.3px;
+  margin-bottom: 25px;
+}
+
+.cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+  gap: 20px;
+  justify-content: center;
+  padding: 0 10px;
+}
+
+.project-card {
+  background: #161b22;
+  border-radius: 18px;
+  box-shadow: 0 2px 10px rgba(255, 255, 255, 0.05);
+  overflow: hidden;
+  transition: all 0.3s ease;
+  display: flex;
+  flex-direction: column;
+}
+
+.project-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 6px 16px rgba(255, 255, 255, 0.08);
+}
+
+.project-card img {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  border-bottom: 1px solid #222;
+}
+
+.project-card h4 {
+  font-size: 1.1rem;
+  color: #fff;
+  margin: 14px 18px 6px;
+  text-align: left;
+}
+
+.project-card p {
+  font-size: 0.92rem;
+  color: #bbb;
+  margin: 4px 18px;
+  line-height: 1.5;
+  text-align: left;
+}
+
+.project-card p strong {
+  color: #ffb347;
+}
+
+.project-card a {
+  display: inline-block;
+  align-self: flex-start;
+  margin: 12px 18px 18px;
+  padding: 8px 14px;
+  background: linear-gradient(90deg, #007bff, #ff7b00);
+  color: #fff;
+  font-size: 0.9rem;
+  font-weight: 500;
+  border-radius: 12px;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 6px rgba(255, 123, 0, 0.25);
+}
+
+.project-card a:hover {
+  background: linear-gradient(90deg, #0056b3, #ff9a3d);
+  box-shadow: 0 4px 10px rgba(255, 123, 0, 0.3);
+}
+
+
+footer{
+  margin-top:3rem; background:var(--card-dark); padding:2rem 1rem; border-top:1px solid rgba(255,255,255,0.05);
+}
+.footer-inner{ max-width:1100px; margin:0 auto; display:flex; flex-direction:column; gap:1rem; }
+.footer-nav{ display:flex; gap:.8rem; flex-wrap:wrap; justify-content:center; }
+.footer-nav a{ color:var(--muted); font-weight:600; padding:.35rem .6rem; border-radius:8px; }
+.footer-nav a:hover{ color:var(--text-light); background:rgba(255,255,255,0.02); }
+.socials{ display:flex; gap:.6rem; justify-content:center; margin-top:1rem; }
+.socials a{ display:inline-flex; align-items:center; justify-content:center; width:40px; height:40px; border-radius:8px; background:rgba(255,255,255,0.02); color:var(--muted); }
+.socials a:hover{ background:linear-gradient(90deg,var(--accent-blue),var(--accent-orange)); color:#071018; }
+.legal{ color:var(--muted); font-size:.92rem; text-align:center; margin-top:1rem; }
+
+@media(min-width:780px){
+  .toplinks{ display:flex; }
+  .hambtn{ display:none; }
+  .cards{ flex-direction:row; flex-wrap:wrap; gap:1rem; }
+  .card{ width:32%; }
+  .hero h2{ font-size:2.5rem; }
+  .services .service-list{ flex-direction:row; gap:1rem; }
+  .service-item{ flex:1; }
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">ES</div>
+  <div style="font-weight:900">Elonga Stark</div>
+  <nav class="toplinks">
+    <a href="index.html">Accueil</a>
+    <a href="projets.html">Projets</a>
+    <a href="web.html">Web</a>
+    <a href="blog.html">Blog</a>
+    <a href="contact.html">Contact</a>
+  </nav>
+  <button class="hambtn" id="hamburger">&#9776;</button>
+</header>
+
+<div class="side-menu" id="sideMenu">
+  <div class="menu-links">
+    <a href="index.html">Accueil</a>
+    </br></br>
+    <a href="web.html">Web <small class="small" style="opacity:.6"> ✓</small></a>
+    </br></br>
+    <a href="blog.html">Blog</a>
+    </br></br>    
+    <a href="contact.html">Contact</a>
+    </br></br>
+    <a href="blog.html" rel="noopener">Mon Blogue</a>
+    </br></br>
+    <a href="portfolio.html">Mes Scénarios</a>
+    </br></br>
+    <a href="projects.html" rel="noopener">Projets détaillés</a>
+    </br></br></br>
+    <a href="services.html" rel="noopener">Mes services</a>
+    </br></br>
+    <a href="cv-generator.html">SaaS générateur de CV</a>
+  </div>
+</div>
+<div class="backdrop" id="backdrop"></div>
+
+<main>
+  <section class="hero">
+    <h2>Créateur Web</h2>
+    <p>Je crée des sites web modernes, intégrés à Firebase et entièrement responsive pour tous les écrans.</p>
+    <div>
+      <button class="btn btn-primary">Mes Projets Web</button>
+      <button class="btn btn-secondary">Me Contacter</button>
+    </div>
+  </section>
+
+  <section class="services">
+    <h3>Mes Services</h3>
+    <div class="service-list">
+      <div class="service-item">
+        <h4>Création de sites vitrines</h4>
+        <p>Sites web professionnels adaptés à votre activité, avec un design moderne et attractif.</p>
+      </div>
+      <div class="service-item">
+        <h4>Intégration Firebase</h4>
+        <p>Connexion à Firebase pour base de données, authentification, et contenu dynamique.</p>
+      </div>
+      <div class="service-item">
+        <h4>Responsive Design</h4>
+        <p>Optimisation pour tous les écrans : mobiles, tablettes et desktop.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="projects">
+    <h3>Mes Projets Web</h3>
+    <div id="projectsContainer" class="cards">
+    </div>
+</main>
+
+<footer>
+    <div class="footer-inner">
+      <div class="footer-top">
+        <div class="footer-brand">
+          <div class="logo" style="width:52px;height:52px;">ES</div>
+          <div>
+            <div style="font-weight:700">Elonga Stark</div>
+            <div style="color:var(--muted);font-size:.92rem">Scénariste • Créateur Web</div>
+          </div>
+        </div>
+
+        <nav class="footer-nav" aria-label="Pied de page - liens">
+          <a href="index.html">Accueil</a> </br></br>
+          <a href="blog.html" rel="noopener">Mon Blogue</a>
+          <a href="portfolio.html">Scénarios</a>
+          <a href="projects.html" rel="noopener">Projets détaillés</a>
+          <a href="web.html" rel="noopener">Créations web</a>
+          <a href="services.html" rel="noopener">Mes services</a>
+          <a href="cv-generator.html">SaaS générateur de CV</a>
+        </nav>
+
+        <div>
+          <div style="margin-bottom:.6rem; color:var(--muted)">Contact rapide</div>
+          <div class="socials" role="list">
+            <a href="https://wa.me/243835175346" target="_blank" rel="noopener" aria-label="WhatsApp">
+  <i class="fab fa-whatsapp"></i>
+</a>
+
+<a href="mailto:elongastark@gmail.com" aria-label="Email">
+  <i class="fas fa-envelope"></i>
+</a>
+
+<a href="https://www.facebook.com/elongamumbere.stack" target="_blank" rel="noopener" aria-label="Facebook">
+  <i class="fab fa-facebook-f"></i>
+</a>
+
+<a href="https://myinstagram.com" target="_blank" rel="noopener" aria-label="Instagram">
+  <i class="fab fa-instagram"></i>
+</a>
+
+<a href="https://www.imdb.com/" target="_blank" rel="noopener" aria-label="IMDb">
+  <i class="fab fa-imdb"></i>
+</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="legal">
+        <div>© <span id="yearFooter"></span> Elonga Stark — Tous droits réservés · <a href="mentions.html" style="color:var(--muted)">Mentions légales</a></div>
+      </div>
+    </div>
+  </footer>
+<script>
+const hamburger = document.getElementById('hamburger');
+const sideMenu = document.getElementById('sideMenu');
+const backdrop = document.getElementById('backdrop');
+
+hamburger.addEventListener('click', ()=>{ sideMenu.classList.add('open'); backdrop.classList.add('show'); });
+backdrop.addEventListener('click', ()=>{ sideMenu.classList.remove('open'); backdrop.classList.remove('show'); });
+</script>
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.5.0/firebase-app.js";
+  import { getFirestore, collection, onSnapshot } from "https://www.gstatic.com/firebasejs/12.5.0/firebase-firestore.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyA3YY-YkJ4tfSiBF1I_M8UVhxyzfMN5238",
+    authDomain: "es-portfolio-a6c08.firebaseapp.com",
+    projectId: "es-portfolio-a6c08",
+    storageBucket: "es-portfolio-a6c08.firebasestorage.app",
+    messagingSenderId: "342830960639",
+    appId: "1:342830960639:web:be05ff6d2996dff20a21ca"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
+  const projectsContainer = document.getElementById("projectsContainer");
+
+  onSnapshot(collection(db, "web_projects"), (snapshot) => {
+    projectsContainer.innerHTML = ""; 
+    snapshot.forEach((doc) => {
+      const data = doc.data();
+      const card = document.createElement("div");
+      card.className = "project-card";
+      card.innerHTML = `
+        <img src="data.imageUrl" alt="screenshot">
+        <h4>${data.nom}</h4>
+        <p>${data.description}</p>
+        <p><strong>Stack:</strong>${data.stack}</p>
+        <a href="${data.lien}" target="_blank">Voir le projet</a>
+      `;
+      projectsContainer.appendChild(card);
+    });
+  });
+</script>
+</body>
+</html>
