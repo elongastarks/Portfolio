@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin Panel</title>
+<style>
+  /* --- Variables & base --- */
+  :root {
+    --bg-dark: #0b0f14;
+    --card-dark: #0f1720;
+    --text-light: #e6eef8;
+    --muted: #9fb2c8;
+    --accent-blue: #2aa4ff;
+    --accent-orange: #ff7a2d;
+    --radius: 12px;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0; font-family:sans-serif; background:var(--bg-dark); color:var(--text-light); padding-top:64px;}
+  header{position:fixed; top:0; width:100%; height:64px; background:rgba(15,23,32,0.95); display:flex; align-items:center; padding:0 1rem; z-index:1000;}
+  header .logo{width:40px;height:40px;background:linear-gradient(135deg,var(--accent-blue),var(--accent-orange)); display:flex;align-items:center;justify-content:center; font-weight:700; color:#071523; border-radius:8px; margin-right:.5rem;}
+  header h1{font-size:1.2rem;margin:0;}
+  .tabs{display:flex; gap:1rem; margin:80px 1rem 1rem;}
+  .tabs button{padding:.5rem 1rem; border:none; cursor:pointer; border-radius:8px; background:rgba(255,255,255,0.05); color:var(--muted);}
+  .tabs button.active{background:var(--accent-blue); color:#071523;}
+  .collection-section{display:none; margin:1rem;}
+  .collection-section.active{display:block;}
+  table{width:100%; border-collapse:collapse; margin-top:.5rem;}
+  th, td{padding:.5rem .7rem; border-bottom:1px solid rgba(255,255,255,0.1);}
+  tr:hover{background: rgba(42,164,255,0.05);}
+  form{margin-top:1rem; display:flex; flex-direction: column; gap:.5rem; padding:1rem; background:var(--card-dark); border-radius:var(--radius);}
+  form input, form textarea{padding:.5rem; border-radius:8px; border:1px solid rgba(255,255,255,0.1); background: rgba(255,255,255,0.02); color:var(--text-light);}
+  form label{font-size:.85rem; color:var(--muted);}
+  form button{cursor:pointer; border-radius:8px; padding:.5rem 1rem; font-weight:600; background:var(--accent-blue); color:#071523; border:none;}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">A</div>
+  <h1>Admin Panel</h1>
+</header>
+
+<!-- Onglets -->
+<div class="tabs">
+  <button data-tab="scenariste-projects" class="active">Scénariste Projects</button>
+  <button data-tab="realisation">Réalisation</button>
+  <button data-tab="web-projects">Web Projects</button>
+  <button data-tab="contact-messages">Contact Messages</button>
+</div>
+
+<div class="content">
+
+  <!-- SCENARISTE PROJECTS -->
+  <section id="scenariste-projects" class="collection-section active">
+    <h3>Scénariste Projects</h3>
+    <form id="scenariste-form">
+      <label>Title</label><input type="text" id="scenariste-title" required>
+      <label>Type</label><input type="text" id="scenariste-type" required>
+      <label>Genre</label><input type="text" id="scenariste-genre" required>
+      <label>Year</label><input type="number" id="scenariste-year" required>
+      <label>Status</label><input type="text" id="scenariste-status" required>
+      <label>Tags (comma separated)</label><input type="text" id="scenariste-tags">
+      <label>Image URL</label><input type="text" id="scenariste-imageUrl">
+      <label>Video URL</label><input type="text" id="scenariste-videoUrl">
+      <label>Synopsis</label><textarea id="scenariste-synopsis"></textarea>
+      <label><input type="checkbox" id="scenariste-isPortfolio"> Is Portfolio</label>
+      <label>Highlight Order</label><input type="number" id="scenariste-highlightOrder">
+      <button type="submit">Ajouter / Modifier</button>
+    </form>
+    <table>
+      <thead>
+        <tr>
+          <th>Title</th><th>Type</th><th>Genre</th><th>Year</th><th>Status</th><th>Actions</th>
+        </tr>
+      </thead>
+      <tbody id="scenariste-projects-body"></tbody>
+    </table>
+  </section>
+
+  <!-- REALISATION -->
+  <section id="realisation" class="collection-section">
+    <h3>Réalisation</h3>
+    <form id="realisation-form">
+      <label>Title</label><input type="text" id="realisation-title" required>
+      <label>Pitch</label><input type="text" id="realisation-pitch" required>
+      <label>With</label><input type="text" id="realisation-with">
+      <label>URL</label><input type="text" id="realisation-url">
+      <label>Synopsis</label><textarea id="realisation-synopsis"></textarea>
+      <button type="submit">Ajouter / Modifier</button>
+    </form>
+    <table>
+      <thead>
+        <tr><th>Title</th><th>Pitch</th><th>With</th><th>Actions</th></tr>
+      </thead>
+      <tbody id="realisation-body"></tbody>
+    </table>
+  </section>
+
+  <!-- WEB PROJECTS -->
+  <section id="web-projects" class="collection-section">
+    <h3>Web Projects</h3>
+    <form id="web-form">
+      <label>Name</label><input type="text" id="web-name" required>
+      <label>Description</label><input type="text" id="web-description">
+      <label>Stack (comma separated)</label><input type="text" id="web-stack">
+      <label>Lien</label><input type="text" id="web-lien">
+      <label>Image URL</label><input type="text" id="web-imageUrl">
+      <label>Tags (comma separated)</label><input type="text" id="web-tags">
+      <button type="submit">Ajouter / Modifier</button>
+    </form>
+    <table>
+      <thead>
+        <tr><th>Name</th><th>Stack</th><th>Actions</th></tr>
+      </thead>
+      <tbody id="web-projects-body"></tbody>
+    </table>
+  </section>
+
+  <!-- CONTACT MESSAGES -->
+  <section id="contact-messages" class="collection-section">
+    <h3>Contact Messages</h3>
+    <table>
+      <thead>
+        <tr><th>Name</th><th>Email</th><th>Message</th><th>Date</th><th>View</th><th>Actions</th></tr>
+      </thead>
+      <tbody id="contact-messages-body"></tbody>
+    </table>
+  </section>
+
+</div>
+
+<script>
+  // Onglets
+  const tabs = document.querySelectorAll('.tabs button');
+  const sections = document.querySelectorAll('.collection-section');
+  tabs.forEach(tab=>{
+    tab.addEventListener('click',()=>{
+      tabs.forEach(t=>t.classList.remove('active'));
+      tab.classList.add('active');
+      const target = tab.dataset.tab;
+      sections.forEach(s=>{
+        s.classList.toggle('active', s.id === target);
+      });
+    });
+  });
+</script>
+<script type="module">
+// admin.js
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.5.0/firebase-app.js";
+import { getFirestore, collection, doc, onSnapshot, addDoc, updateDoc, deleteDoc } from "https://www.gstatic.com/firebasejs/12.5.0/firebase-firestore.js";
+import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.5.0/firebase-auth.js";
+
+// --- Config Firebase ---
+const firebaseConfig = {
+  apiKey: "AIzaSyA3YY-YkJ4tfSiBF1I_M8UVhxyzfMN5238",
+  authDomain: "es-portfolio-a6c08.firebaseapp.com",
+  projectId: "es-portfolio-a6c08",
+  storageBucket: "es-portfolio-a6c08.firebasestorage.app",
+  messagingSenderId: "342830960639",
+  appId: "1:342830960639:web:be05ff6d2996dff20a21ca"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore();
+const auth = getAuth();
+
+// --- Vérification utilisateur admin ---
+onAuthStateChanged(auth, async (user) => {
+  if (!user) {
+    window.location.href = "404.html";
+    return;
+  }
+  const userDoc = await db.collection("users").doc(user.uid).get();
+  if (!userDoc.exists || userDoc.data().role !== "admin") {
+    alert("Accès refusé : vous n'avez pas les droits administrateurs.");
+    window.location.href = "index.html";
+    return;
+  }
+
+  // Chargement live des collections
+  loadScenaristeProjects();
+  loadRealisation();
+  loadWebProjects();
+  loadContactMessages();
+});
+
+// ---------------- SCENARISTE PROJECTS ----------------
+let currentScenaristeId = null;
+const scenForm = document.getElementById("scenariste-form");
+
+function loadScenaristeProjects() {
+  const container = document.getElementById("scenariste-list");
+  const collRef = collection(db, "scenariste_projects");
+  
+  onSnapshot(collRef, snapshot => {
+    container.innerHTML = "";
+    snapshot.forEach(docSnap => {
+      const data = docSnap.data();
+      const card = document.createElement("div");
+      card.className = "card";
+      card.innerHTML = `
+        <strong>${data.title}</strong> - ${data.type} - ${data.genre} - ${data.year} 
+        <button class="edit-btn">Modifier</button>
+        <button class="delete-btn">Supprimer</button>
+      `;
+      container.appendChild(card);
+
+      // Modifier
+      card.querySelector(".edit-btn").addEventListener("click", () => {
+        currentScenaristeId = docSnap.id;
+        scenForm.title.value = data.title;
+        scenForm.type.value = data.type;
+        scenForm.genre.value = data.genre;
+        scenForm.year.value = data.year;
+        scenForm.synopsis.value = data.synopsis;
+        scenForm.videoUrl.value = data.videoUrl;
+        scenForm.imageUrl.value = data.imageUrl;
+        scenForm.status.value = data.status;
+        scenForm.tags.value = data.tags.join(",");
+        scenForm.isPortfolio.checked = data.isPortfolio;
+        scenForm.highlightOrder.value = data.highlightOrder;
+      });
+
+      // Supprimer
+      card.querySelector(".delete-btn").addEventListener("click", async () => {
+        if (confirm("Voulez-vous vraiment supprimer ce projet ?")) {
+          await deleteDoc(doc(db, "scenariste_projects", docSnap.id));
+        }
+      });
+    });
+  });
+}
+
+// Envoi / update form
+scenForm.addEventListener("submit", async e => {
+  e.preventDefault();
+  const data = {
+    title: scenForm.title.value,
+    type: scenForm.type.value,
+    genre: scenForm.genre.value,
+    year: Number(scenForm.year.value),
+    synopsis: scenForm.synopsis.value,
+    videoUrl: scenForm.videoUrl.value,
+    imageUrl: scenForm.imageUrl.value,
+    status: scenForm.status.value,
+    tags: scenForm.tags.value.split(",").map(t => t.trim()),
+    isPortfolio: scenForm.isPortfolio.checked,
+    highlightOrder: Number(scenForm.highlightOrder.value)
+  };
+
+  if (currentScenaristeId) {
+    await updateDoc(doc(db, "scenariste_projects", currentScenaristeId), data);
+    currentScenaristeId = null;
+  } else {
+    await addDoc(collection(db, "scenariste_projects"), data);
+  }
+
+  scenForm.reset();
+});
+
+// ---------------- REALISATION ----------------
+let currentRealisationId = null;
+const realForm = document.getElementById("realisation-form");
+
+function loadRealisation() {
+  const container = document.getElementById("realisation-list");
+  const collRef = collection(db, "scenariste-realisation");
+
+  onSnapshot(collRef, snapshot => {
+    container.innerHTML = "";
+    snapshot.forEach(docSnap => {
+      const data = docSnap.data();
+      const card = document.createElement("div");
+      card.className = "card";
+      card.innerHTML = `
+        <strong>${data.title}</strong> - Avec: ${data.with}
+        <button class="edit-btn">Modifier</button>
+        <button class="delete-btn">Supprimer</button>
+      `;
+      container.appendChild(card);
+
+      card.querySelector(".edit-btn").addEventListener("click", () => {
+        currentRealisationId = docSnap.id;
+        realForm.title.value = data.title;
+        realForm.pitch.value = data.pitch;
+        realForm.synopsis.value = data.synopsis;
+        realForm.with.value = data.with;
+        realForm.url.value = data.url;
+      });
+
+      card.querySelector(".delete-btn").addEventListener("click", async () => {
+        if (confirm("Supprimer ce projet ?")) {
+          await deleteDoc(doc(db, "scenariste-realisation", docSnap.id));
+        }
+      });
+    });
+  });
+}
+
+realForm.addEventListener("submit", async e => {
+  e.preventDefault();
+  const data = {
+    title: realForm.title.value,
+    pitch: realForm.pitch.value,
+    synopsis: realForm.synopsis.value,
+    with: realForm.with.value,
+    url: realForm.url.value
+  };
+  if (currentRealisationId) {
+    await updateDoc(doc(db, "scenariste-realisation", currentRealisationId), data);
+    currentRealisationId = null;
+  } else {
+    await addDoc(collection(db, "scenariste-realisation"), data);
+  }
+  realForm.reset();
+});
+
+// ---------------- WEB PROJECTS ----------------
+let currentWebId = null;
+const webForm = document.getElementById("web-form");
+
+function loadWebProjects() {
+  const container = document.getElementById("web-list");
+  const collRef = collection(db, "web_projects");
+
+  onSnapshot(collRef, snapshot => {
+    container.innerHTML = "";
+    snapshot.forEach(docSnap => {
+      const data = docSnap.data();
+      const card = document.createElement("div");
+      card.className = "card";
+      card.innerHTML = `
+        <strong>${data.name}</strong> - ${data.stack}
+        <button class="edit-btn">Modifier</button>
+        <button class="delete-btn">Supprimer</button>
+      `;
+      container.appendChild(card);
+
+      card.querySelector(".edit-btn").addEventListener("click", () => {
+        currentWebId = docSnap.id;
+        webForm.name.value = data.name;
+        webForm.description.value = data.description;
+        webForm.stack.value = data.stack;
+        webForm.lien.value = data.lien;
+        webForm.imageUrl.value = data.imageUrl;
+        webForm.tags.value = data.tags.join(",");
+      });
+
+      card.querySelector(".delete-btn").addEventListener("click", async () => {
+        if (confirm("Supprimer ce projet ?")) {
+          await deleteDoc(doc(db, "web_projects", docSnap.id));
+        }
+      });
+    });
+  });
+}
+
+webForm.addEventListener("submit", async e => {
+  e.preventDefault();
+  const data = {
+    name: webForm.name.value,
+    description: webForm.description.value,
+    stack: webForm.stack.value,
+    lien: webForm.lien.value,
+    imageUrl: webForm.imageUrl.value,
+    tags: webForm.tags.value.split(",").map(t => t.trim())
+  };
+  if (currentWebId) {
+    await updateDoc(doc(db, "web_projects", currentWebId), data);
+    currentWebId = null;
+  } else {
+    await addDoc(collection(db, "web_projects"), data);
+  }
+  webForm.reset();
+});
+
+// ---------------- CONTACT MESSAGES ----------------
+function loadContactMessages() {
+  const container = document.getElementById("contact-list");
+  const collRef = collection(db, "contact_messages");
+
+  onSnapshot(collRef, snapshot => {
+    container.innerHTML = "";
+    snapshot.forEach(docSnap => {
+      const data = docSnap.data();
+      const card = document.createElement("div");
+      card.className = "card";
+      card.innerHTML = `
+        <strong>${data.name}</strong> - ${data.email} - ${new Date(data.date.seconds * 1000).toLocaleDateString()}
+        <button class="delete-btn">Supprimer</button>
+      `;
+      container.appendChild(card);
+
+      card.querySelector(".delete-btn").addEventListener("click", async () => {
+        if (confirm("Supprimer ce message ?")) {
+          await deleteDoc(doc(db, "contact_messages", docSnap.id));
+        }
+      });
+    });
+  });
+}
+</script>
+</body>
+</html>
