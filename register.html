@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Inscription - Elonga Stark</title>
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&family=Poppins:wght@700&display=swap" rel="stylesheet">
+  <style>
+    /* --- Styles généraux --- */
+    body {
+      margin: 0;
+      font-family: 'Open Sans', sans-serif;
+      background: linear-gradient(135deg, #0b0e16, #1a1f2b);
+      color: #fff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .register-container {
+      background: #1a1f2b;
+      padding: 2rem;
+      border-radius: 1.5rem;
+      width: 90%;
+      max-width: 400px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    }
+
+    h1 {
+      font-family: 'Poppins', sans-serif;
+      font-weight: 700;
+      text-align: center;
+      margin-bottom: 1.5rem;
+      color: #ff8c42;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    input {
+      padding: 0.8rem 1rem;
+      border-radius: 1rem;
+      border: none;
+      font-size: 1rem;
+      outline: none;
+    }
+
+    input[type="email"], input[type="password"], input[type="text"] {
+      background: #0b0e16;
+      color: #fff;
+    }
+
+    button {
+      padding: 0.8rem;
+      border-radius: 1rem;
+      border: none;
+      background-color: #007bff;
+      color: #fff;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #005fcc;
+    }
+
+    .error {
+      color: #ff4c42;
+      font-size: 0.9rem;
+      text-align: center;
+    }
+
+    .success {
+      color: #4cff8c;
+      font-size: 0.9rem;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="register-container">
+    <h1>Inscription</h1>
+    <form id="registerForm">
+      <input type="text" id="name" placeholder="Nom complet" required>
+      <input type="email" id="email" placeholder="Email" required>
+      <input type="password" id="password" placeholder="Mot de passe" required>
+      <button type="submit">S'inscrire</button>
+      <div class="error" id="errorMsg"></div>
+      <div class="success" id="successMsg"></div>
+    </form>
+  </div>
+
+  <!-- Firebase SDK -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.5.0/firebase-app.js";
+    import { getAuth, createUserWithEmailAndPassword, updateProfile } from "https://www.gstatic.com/firebasejs/12.5.0/firebase-auth.js";
+    import { getFirestore, doc, setDoc } from "https://www.gstatic.com/firebasejs/12.5.0/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyA3YY-YkJ4tfSiBF1I_M8UVhxyzfMN5238",
+      authDomain: "es-portfolio-a6c08.firebaseapp.com",
+      projectId: "es-portfolio-a6c08",
+      storageBucket: "es-portfolio-a6c08.firebasestorage.app",
+      messagingSenderId: "342830960639",
+      appId: "1:342830960639:web:be05ff6d2996dff20a21ca"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+
+    const registerForm = document.getElementById("registerForm");
+    const errorMsg = document.getElementById("errorMsg");
+    const successMsg = document.getElementById("successMsg");
+
+    registerForm.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const name = document.getElementById("name").value;
+      const email = document.getElementById("email").value;
+      const password = document.getElementById("password").value;
+
+      try {
+        const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+        const user = userCredential.user;
+
+        // Mettre à jour le nom de l'utilisateur
+        await updateProfile(user, { displayName: name });
+
+        // Ajouter l'utilisateur dans Firestore
+        await setDoc(doc(db, "users", user.uid), {
+          name: name,
+          email: email,
+          role: "visitor" // rôle par défaut
+        });
+
+        successMsg.textContent = "Inscription réussie ! Redirection…";
+        errorMsg.textContent = "";
+
+        setTimeout(() => {
+          window.location.href = "login.html"; // redirection vers la page de connexion
+        }, 1000);
+
+      } catch (error) {
+        errorMsg.textContent = error.message;
+        successMsg.textContent = "";
+      }
+    });
+  </script>
+
+</body>
+</html>
