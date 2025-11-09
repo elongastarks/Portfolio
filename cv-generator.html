@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Portfolio Scénariste - Formulaire</title>
+  <style>
+    /* Reset et base */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Lato', sans-serif;
+    }
+    body {
+      background: #f5f5f5;
+      color: #333;
+      line-height: 1.5;
+    }
+    h1, h2, h3 {
+      margin-bottom: 10px;
+    }
+    .container {
+      max-width: 1200px;
+      margin: 30px auto;
+      padding: 20px;
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    }
+    form {
+      display: grid;
+      gap: 30px;
+    }
+    label {
+      display: block;
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+    input[type="text"],
+    input[type="email"],
+    input[type="file"],
+    textarea,
+    select {
+      width: 100%;
+      padding: 8px 12px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      margin-bottom: 10px;
+    }
+    textarea {
+      resize: vertical;
+      min-height: 80px;
+    }
+    .section {
+      border-top: 1px solid #ddd;
+      padding-top: 20px;
+    }
+    .row {
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+    .row > div {
+      flex: 1 1 300px;
+    }
+    button {
+      padding: 12px 25px;
+      background: #007BFF;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 16px;
+      transition: 0.3s;
+    }
+    button:hover {
+      background: #0056b3;
+    }
+    .artworks-container {
+      margin-top: 15px;
+    }
+    .artwork-item {
+      border: 1px solid #ccc;
+      padding: 10px;
+      border-radius: 8px;
+      margin-bottom: 10px;
+      background: #fafafa;
+    }
+    /* Responsive */
+    @media(max-width: 768px){
+      .row {
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h1>Créer votre Portfolio de Scénariste</h1>
+    <form id="portfolioForm">
+
+      <!-- Page de couverture -->
+      <div class="section">
+        <h2>Page de couverture</h2>
+        <label for="fullName">Nom complet</label>
+        <input type="text" id="fullName" name="fullName">
+
+        <label for="photo">Photo (upload)</label>
+        <input type="file" id="photo" name="photo" accept="image/*">
+
+        <label for="specialty">Spécialité</label>
+        <input type="text" id="specialty" name="specialty" placeholder="Ex: Scénariste - Cinéma / Série TV">
+
+        <label for="tagline">Citation ou tagline</label>
+        <input type="text" id="tagline" name="tagline">
+
+        <label>Disposition de la photo</label>
+        <select name="photoPosition" id="photoPosition">
+          <option value="center">Centrée</option>
+          <option value="left">Gauche</option>
+          <option value="right">Droite</option>
+        </select>
+      </div>
+
+      <!-- Profil -->
+      <div class="section">
+        <h2>Profil / Présentation</h2>
+        <label for="bio">Texte de présentation</label>
+        <textarea id="bio" name="bio" placeholder="300 à 500 caractères"></textarea>
+
+        <label for="experience">Parcours professionnel</label>
+        <textarea id="experience" name="experience"></textarea>
+
+        <label for="skills">Langues et outils maîtrisés</label>
+        <input type="text" id="skills" name="skills" placeholder="Ex: Final Draft, Celtx">
+
+        <label for="contact">Contact (email, site, réseaux pro)</label>
+        <input type="text" id="contact" name="contact" placeholder="Ex: mail@example.com, LinkedIn, IMDb">
+      </div>
+
+      <!-- Œuvres principales -->
+      <div class="section">
+        <h2>Œuvres principales</h2>
+        <div class="artworks-container" id="artworksContainer">
+          <!-- Bloc dynamique ajouté par JS -->
+        </div>
+        <button type="button" id="addArtworkBtn">Ajouter une œuvre</button>
+      </div>
+
+      <!-- Extrait de scénario -->
+      <div class="section">
+        <h2>Extrait de scénario</h2>
+        <label for="scriptFile">Upload PDF / Texte</label>
+        <input type="file" id="scriptFile" name="scriptFile" accept=".pdf,.txt">
+
+        <label for="scriptText">Ou texte libre</label>
+        <textarea id="scriptText" name="scriptText" placeholder="Copiez-collez votre extrait"></textarea>
+      </div>
+
+      <!-- Distinctions & collaborations -->
+      <div class="section">
+        <h2>Distinctions & collaborations</h2>
+        <textarea id="awards" name="awards" placeholder="Sélections, collaborations, formations..."></textarea>
+      </div>
+
+      <!-- Contact final -->
+      <div class="section">
+        <h2>Contact final</h2>
+        <label for="finalContact">Réseaux professionnels / QR code / signature</label>
+        <input type="text" id="finalContact" name="finalContact" placeholder="LinkedIn, FilmFreeway...">
+      </div>
+
+      <!-- Bouton soumettre -->
+      <div class="section">
+        <button type="submit">Générer Portfolio</button>
+      </div>
+    </form>
+  </div>
+
+  <script>
+    // JS minimal pour ajouter dynamiquement des œuvres
+    const artworksContainer = document.getElementById('artworksContainer');
+    const addArtworkBtn = document.getElementById('addArtworkBtn');
+
+    addArtworkBtn.addEventListener('click', () => {
+      const div = document.createElement('div');
+      div.classList.add('artwork-item');
+      div.innerHTML = `
+        <label>Titre de l'œuvre</label>
+        <input type="text" name="artworkTitle[]">
+        <label>Type (Long métrage, Série...)</label>
+        <input type="text" name="artworkType[]">
+        <label>Année</label>
+        <input type="text" name="artworkYear[]">
+        <label>Production</label>
+        <input type="text" name="artworkProduction[]">
+        <label>Statut</label>
+        <input type="text" name="artworkStatus[]">
+        <label>Pitch / Synopsis</label>
+        <textarea name="artworkPitch[]"></textarea>
+        <label>Mini-affiche (upload)</label>
+        <input type="file" name="artworkImage[]" accept="image/*">
+      `;
+      artworksContainer.appendChild(div);
+    });
+  </script>
+<!-- Ajouter dans ton HTML avant la balise </body> -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
+<script>
+document.getElementById("portfolioForm").addEventListener("submit", async function(e){
+  e.preventDefault();
+
+  // --- 1. Récupération des valeurs du formulaire ---
+  const fullName = document.getElementById("fullName").value;
+  const specialty = document.getElementById("specialty").value;
+  const tagline = document.getElementById("tagline").value;
+  const bio = document.getElementById("bio").value;
+  const experience = document.getElementById("experience").value;
+  const skills = document.getElementById("skills").value;
+  const contact = document.getElementById("contact").value;
+  const scriptText = document.getElementById("scriptText").value;
+  const awards = document.getElementById("awards").value;
+  const finalContact = document.getElementById("finalContact").value;
+
+  // --- 2. Image photo (optionnelle) ---
+  let photoBase64 = "";
+  const photoFile = document.getElementById("photo").files[0];
+  if(photoFile){
+    photoBase64 = await toBase64(photoFile);
+  }
+
+  // --- 3. Liste des œuvres dynamiques ---
+  const titles = document.getElementsByName("artworkTitle[]");
+  let artworks = [];
+  for(let i=0; i<titles.length; i++){
+    const imageFile = document.getElementsByName("artworkImage[]")[i].files[0];
+    let imgBase64 = "";
+    if(imageFile){
+      imgBase64 = await toBase64(imageFile);
+    }
+    artworks.push({
+      title: titles[i].value,
+      type: document.getElementsByName("artworkType[]")[i].value,
+      year: document.getElementsByName("artworkYear[]")[i].value,
+      production: document.getElementsByName("artworkProduction[]")[i].value,
+      status: document.getElementsByName("artworkStatus[]")[i].value,
+      pitch: document.getElementsByName("artworkPitch[]")[i].value,
+      image: imgBase64
+    });
+  }
+
+  // --- 4. Construction du document PDF ---
+  const docDefinition = {
+    pageSize: 'A4',
+    pageMargins: [40, 60, 40, 60],
+    content: [],
+
+    styles: {
+      header: { fontSize: 22, bold: true, alignment: 'center', margin: [0, 10, 0, 10] },
+      subheader: { fontSize: 16, bold: true, margin: [0, 10, 0, 6] },
+      normal: { fontSize: 12, lineHeight: 1.4 },
+      italic: { italics: true, fontSize: 12 },
+      titleBox: { alignment: 'center', fontSize: 18, margin: [0, 10, 0, 20] },
+      artworkTitle: { bold: true, fontSize: 14, margin: [0, 8, 0, 4] },
+      sectionBreak: { margin: [0, 20, 0, 0] }
+    }
+  };
+
+  // --- PAGE DE COUVERTURE ---
+  const coverElements = [];
+  if(photoBase64){
+    coverElements.push({
+      image: photoBase64,
+      width: 120,
+      alignment: 'center',
+      margin: [0, 20, 0, 10]
+    });
+  }
+  coverElements.push(
+    { text: fullName, style: 'header' },
+    { text: specialty, style: 'titleBox' },
+    { text: tagline, style: 'italic' }
+  );
+  docDefinition.content.push(...coverElements, { text: '', pageBreak: 'after' });
+
+  // --- PROFIL ---
+  docDefinition.content.push(
+    { text: "Profil / Présentation", style: 'subheader' },
+    { text: bio, style: 'normal' },
+    { text: "\nParcours professionnel", style: 'subheader' },
+    { text: experience, style: 'normal' },
+    { text: "\nLangues & Outils maîtrisés", style: 'subheader' },
+    { text: skills, style: 'normal' },
+    { text: "\nContact", style: 'subheader' },
+    { text: contact, style: 'normal' },
+    { text: '', pageBreak: 'after' }
+  );
+
+  // --- ŒUVRES PRINCIPALES ---
+  docDefinition.content.push({ text: "Œuvres principales", style: 'subheader' });
+  artworks.forEach(a => {
+    if(a.image){
+      docDefinition.content.push({ image: a.image, width: 100, margin: [0, 10, 0, 5] });
+    }
+    docDefinition.content.push(
+      { text: a.title, style: 'artworkTitle' },
+      { text: `${a.type} • ${a.year} • ${a.production}`, style: 'italic' },
+      { text: `Statut : ${a.status}`, style: 'normal' },
+      { text: a.pitch, style: 'normal' },
+      { text: '', margin: [0,10,0,10] }
+    );
+  });
+  docDefinition.content.push({ text: '', pageBreak: 'after' });
+
+  // --- EXTRAIT DE SCÉNARIO ---
+  if(scriptText.trim() !== ""){
+    docDefinition.content.push(
+      { text: "Extrait de scénario", style: 'subheader' },
+      { text: scriptText, style: 'normal' },
+      { text: '', pageBreak: 'after' }
+    );
+  }
+
+  // --- DISTINCTIONS ---
+  docDefinition.content.push(
+    { text: "Distinctions & collaborations", style: 'subheader' },
+    { text: awards, style: 'normal' }
+  );
+
+  // --- CONTACT FINAL ---
+  docDefinition.content.push(
+    { text: "\n\nContact final", style: 'subheader' },
+    { text: finalContact, style: 'normal' }
+  );
+
+  // --- 5. Génération du PDF ---
+  pdfMake.createPdf(docDefinition).download(`${fullName}_Portfolio_Scenariste.pdf`);
+});
+
+// --- Fonction utilitaire pour convertir un fichier en base64 ---
+function toBase64(file){
+  return new Promise((resolve, reject)=>{
+    const reader = new FileReader();
+    reader.onload = ()=>resolve(reader.result);
+    reader.onerror = reject;
+    reader.readAsDataURL(file);
+  });
+}
+</script>
+</body>
+</html>
