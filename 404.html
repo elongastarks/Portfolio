@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>404 - Page non trouvée</title>
+<style>
+  :root {
+    --bg-dark: #0b0f14;
+    --text-light: #e6eef8;
+    --accent-blue: #2aa4ff;
+    --accent-orange: #ff7a2d;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body, html {
+    height: 100%;
+    font-family: 'Poppins', sans-serif;
+    background: var(--bg-dark);
+    color: var(--text-light);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+
+  .container {
+    text-align: center;
+    padding: 2rem;
+  }
+
+  h1 {
+    font-size: 10rem;
+    font-weight: 900;
+    background: linear-gradient(90deg, var(--accent-blue), var(--accent-orange));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: float 3s ease-in-out infinite;
+  }
+
+  h2 {
+    font-size: 2rem;
+    margin-top: 1rem;
+    color: var(--text-light);
+  }
+
+  p {
+    margin-top: 1rem;
+    color: #9fb2c8;
+    font-size: 1rem;
+  }
+
+  a.btn-home {
+    display: inline-block;
+    margin-top: 2rem;
+    padding: 0.8rem 1.5rem;
+    border-radius: 10px;
+    font-weight: 600;
+    text-decoration: none;
+    background: linear-gradient(90deg, var(--accent-blue), var(--accent-orange));
+    color: #071018;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  a.btn-home:hover {
+    transform: scale(1.05);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.5);
+  }
+
+  /* Animation "flottante" */
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-20px) rotate(-3deg); }
+  }
+
+  /* Étoiles animées derrière */
+  body::before {
+    content: "";
+    position: absolute;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(42,164,255,0.2) 1px, transparent 1px);
+    background-size: 50px 50px;
+    top: -50%;
+    left: -50%;
+    animation: moveStars 20s linear infinite;
+    z-index: 0;
+  }
+
+  @keyframes moveStars {
+    from { transform: translate(0,0); }
+    to { transform: translate(50px, 50px); }
+  }
+
+  .container {
+    position: relative;
+    z-index: 1;
+  }
+
+</style>
+</head>
+<body>
+  <div class="container">
+    <h1>404</h1>
+    <h2>Oups ! Page introuvable</h2>
+    <p>Il semblerait que vous soyez perdu…</p>
+    <a href="index.html" class="btn-home">Retour à l'accueil</a>
+  </div>
+</body>
+</html>
