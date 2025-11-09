@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Blog - Elonga Stark</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700&family=Open+Sans:wght@300;400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <script src="https://kit.fontawesome.com/a2d9d5a64c.js" crossorigin="anonymous"></script>
+<style>
+    :root{
+      --bg-dark: #0b0f14;
+      --card-dark: #0f1720;
+      --text-light: #e6eef8;
+      --muted: #9fb2c8;
+      --accent-blue: #2aa4ff;
+      --accent-orange: #ff7a2d;
+      --glass: rgba(255,255,255,0.04);
+      --radius: 12px;
+      --shadow: 0 8px 24px rgba(2,6,23,0.6);
+    }
+
+
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family: "Open Sans", sans-serif;
+      background: linear-gradient(180deg, var(--bg-dark) 0%, #081018 100%);
+      color:var(--text-light);
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      scroll-behavior:smooth; /* smooth in-page nav */
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    a{color:inherit; text-decoration:none}
+
+    header{
+      position:fixed;
+      top:0; left:0; right:0;
+      height:64px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      padding:0 1rem;
+      background: linear-gradient(180deg, rgba(255,255,255,0.02), transparent);
+      backdrop-filter: blur(6px);
+      z-index:1200;
+      border-bottom:1px solid rgba(255,255,255,0.03);
+    }
+    .brand{
+      display:flex;
+      align-items:center;
+      gap:.6rem;
+      cursor:default;
+    }
+    .logo{
+      width:40px;height:40px;border-radius:8px;
+      background:linear-gradient(135deg,var(--accent-blue),var(--accent-orange));
+      display:flex;align-items:center;justify-content:center;
+      font-weight:700;color:#071523;font-family:'Poppins',sans-serif;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.5);
+    }
+    .brand h1{font-size:1rem;margin:0;font-family:'Poppins',sans-serif}
+
+    .toplinks{
+      display:none;
+      gap:1rem;
+      align-items:center;
+      margin-right:1rem;
+    }
+    .toplinks a{
+      color:var(--muted); padding:.5rem .75rem; border-radius:8px;
+      font-weight:600; font-size:.95rem;
+    }
+    .toplinks a:hover{color:var(--text-light); background:var(--glass)}
+
+    .hambtn{
+      display:flex;
+      align-items:center;
+      gap:.6rem;
+      background:transparent;
+      border:none;
+      color:var(--text-light);
+      font-size:1.25rem;
+      cursor:pointer;
+    }
+
+    .side-menu{
+      position:fixed;
+      top:0;
+      right:-100%;
+      width:84%;
+      max-width:380px;
+      height:100vh;
+      background:linear-gradient(180deg,var(--card-dark), #07101a);
+      box-shadow:var(--shadow);
+      padding:1.6rem;
+      transition:right .33s cubic-bezier(.2,.9,.3,1);
+      z-index:1300;
+      display:flex;
+      flex-direction:column;
+      gap:1rem;
+    }
+    .side-menu.open{ right:0 }
+
+    .menu-head{
+      display:flex; align-items:center; justify-content:space-between; gap:.5rem;
+    }
+    .menu-title{ font-family:'Poppins',sans-serif; font-size:1.05rem; color:var(--text-light) }
+    .menu-close{ background:transparent;border:0;color:var(--muted); font-size:1.2rem; cursor:pointer }
+
+    .menu-links{ display:flex; flex-direction:column; gap:.6rem; margin-top:1rem }
+    .menu-links a{
+      padding:.75rem 1rem; border-radius:10px; color:var(--text-light);
+      font-weight:600; display:flex; justify-content:space-between; align-items:center;
+    }
+    .menu-links a.small{ font-weight:500; color:var(--muted); font-size:.95rem }
+    .menu-links a:hover{ background:rgba(255,255,255,0.02); color:var(--accent-orange) }
+
+    .divider{ height:1px; background:rgba(255,255,255,0.03); margin:.6rem 0; border-radius:2px }
+
+    .ext-links{ display:flex; gap:.6rem; margin-top:auto; align-items:center; justify-content:space-between }
+    .ext-links a{ color:var(--muted); font-size:0.95rem }
+    .ext-links a:hover{ color:var(--text-light) }
+
+    .backdrop{
+      position:fixed; inset:0; background:rgba(2,6,12,0.6);
+      opacity:0; pointer-events:none; transition:opacity .25s;
+      z-index:1250;
+    }
+    .backdrop.show{ opacity:1; pointer-events:auto }
+    
+.newsletter{
+  max-width:720px; margin:90px auto 2rem; padding:1.6rem; border-radius:var(--radius);
+  background:var(--card-dark); box-shadow:var(--shadow); text-align:center;
+}
+.newsletter h3{font-family:'Poppins',sans-serif;margin-bottom:1rem;}
+.newsletter form{display:flex; flex-direction:column; gap:.8rem;}
+.newsletter input{padding:.7rem 1rem; border-radius:8px; border:none; background:rgba(255,255,255,0.05); color:var(--text-light);}
+.newsletter button{padding:.8rem 1.2rem; border-radius:10px; border:none; font-weight:700; cursor:pointer; background:linear-gradient(90deg,var(--accent-blue),var(--accent-orange)); color:#071018;}
+
+.blog-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  padding: 1.2rem;
+  justify-content: center;
+  background: rgba(255,255,255,0.02);
+  border-radius: 12px;
+  margin-bottom: 1.5rem;
+}
+.blog-filters label {
+  color: var(--text-light);
+  font-weight: 600;
+}
+.blog-filters select {
+  padding: 0.5rem 0.8rem;
+  border-radius: 8px;
+  border: none;
+  background: var(--card-dark);
+  color: var(--text-light);
+  cursor: pointer;
+}
+
+.blog-posts{padding:1rem 1rem; max-width:1100px;margin:0 auto; display:flex; flex-direction:column; gap:1.6rem;}
+.post-card{background:var(--card-dark); border-radius:var(--radius); box-shadow:var(--shadow); padding:1rem; display:flex; flex-direction:column; gap:.8rem;}
+.post-card h4{margin:0; font-family:'Poppins',sans-serif;}
+.post-meta{font-size:.9rem; color:var(--muted);}
+.post-tags{display:flex; gap:.4rem; flex-wrap:wrap;}
+.post-tags span{padding:.25rem .5rem; border-radius:6px; background:rgba(42,164,255,0.1); font-size:.8rem; color:var(--text-light);}
+.post-tags span.orange{background:rgba(255,122,45,0.1); color:var(--text-light);}
+
+.post-card img{width:100%; max-height:300px; object-fit:cover; border-radius:8px;}
+.post-card audio{width:100%; margin-top:.5rem; border-radius:8px;}
+
+footer{
+      margin-top:2rem;
+      background:linear-gradient(180deg,#071119 0%, rgba(7,16,25,0.9) 100%);
+      padding:2rem 1rem;
+      border-top:1px solid rgba(255,255,255,0.02);
+    }
+    .footer-inner{ max-width:1100px; margin:0 auto; display:flex; flex-direction:column; gap:1rem }
+    .footer-top{ display:flex; align-items:flex-start; justify-content:space-between; gap:1rem; flex-wrap:wrap }
+    .footer-brand{ display:flex; gap:.8rem; align-items:center }
+    .footer-nav{ display:flex; gap:.8rem; flex-wrap:wrap }
+    .footer-nav a{ color:var(--muted); font-weight:600; padding:.35rem .6rem; border-radius:8px }
+    .footer-nav a:hover{ color:var(--text-light); background:rgba(255,255,255,0.02) }
+
+    .socials{ display:flex; gap:.6rem; align-items:center }
+    .socials a{ display:inline-flex; align-items:center; justify-content:center; width:40px; height:40px; border-radius:8px; background:rgba(255,255,255,0.02); color:var(--muted) }
+    .socials a:hover{ background:linear-gradient(90deg,var(--accent-blue),var(--accent-orange)); color:#071018 }
+
+    .legal{ color:var(--muted); font-size:.92rem; margin-top:.6rem; text-align:center }
+</style>
+</head>
+<body>
+
+<header>
+    <div class="brand" aria-hidden="false">
+      <div class="logo">ES</div>
+      <div>
+        <h1>Elonga Stark</h1>
+        <div style="font-size:.78rem;color:var(--muted)">Scénariste • Créateur Web</div>
+      </div>
+    </div>
+
+
+    <button class="hambtn" id="hambtn" aria-label="Ouvrir le menu" aria-expanded="false">
+      <i class="fas fa-bars"></i>
+    </button>
+  </header>
+  <div class="backdrop" id="backdrop" tabindex="-1" aria-hidden="true"></div>
+
+   
+  <aside class="side-menu" id="sidemenu" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="menu-title">
+    <div class="menu-head">
+      <div>
+        <div class="menu-title" id="menu-title">Menu</div>
+        <div style="color:var(--muted); font-size:.9rem">Navigation & pages</div>
+      </div>
+      <button class="menu-close" id="menuClose" aria-label="Fermer le menu"><i class="fas fa-times"></i></button>
+    </div>
+
+    <div class="divider" role="separator"></div>
+
+    <nav class="menu-links" aria-label="Liens du menu">
+     
+        <a href="inde.html">Accueil</a>
+        <a href="blog.html" rel="noopener">Blog <small class="small" style="opacity:.6"> ✓</small></a>
+      <a href="projets.html" rel="noopener">Projets détaillés</a>
+      <a href="portfolio.html" rel="noopener">Projets en Vedettes</small></a>
+      <a href="web.html" rel="noopener">Créations web</a>
+      <div class="divider"></div>
+
+      <a href="contact.html" class="menu-link">✉️ Contact</a>
+    </nav>
+
+    <div class="ext-links">
+      <div style="font-size:.88rem;color:var(--muted)">&copy; <span id="yearSmall"></span> Elonga</div>
+    </div>
+  </aside>
+  
+<section class="newsletter">
+  <h3>Inscrivez-vous à la newsletter</h3>
+  <form id="newsletterForm">
+    <input type="text" name="name" placeholder="Nom" maxlength="50" required>
+    <input type="email" name="email" placeholder="Email" maxlength="50" required>
+    <input type="text" name="number" placeholder="Numéro" maxlength="20" required>
+    <button type="submit">S’inscrire</button>
+  </form>
+</section>
+
+<section class="blog-filters">
+  <label for="categoryFilter">Catégorie :</label>
+  <select id="categoryFilter">
+    <option value="">Toutes</option>
+    <option value="écriture">Écriture</option>
+    <option value="web">Web</option>
+    <option value="perso">Perso</option>
+  </select>
+
+  <label for="tagFilter">Tag :</label>
+  <select id="tagFilter">
+    <option value="">Tous</option>
+    <option value="tutorial">Tutorial</option>
+    <option value="project">Project</option>
+    <option value="story">Story</option>
+  </select>
+</section>
+
+<section id="blogPostsContainer" class="cards"></section>
+
+<section class="blog-posts" id="blogPostsContainer">
+</section>
+
+     <footer>
+    <div class="footer-inner">
+      <div class="footer-top">
+        <div class="footer-brand">
+          <div class="logo" style="width:52px;height:52px;">ES</div>
+          <div>
+            <div style="font-weight:700">Elonga Stark</div>
+            <div style="color:var(--muted);font-size:.92rem">Scénariste • Créateur Web</div>
+          </div>
+        </div>
+
+        <nav class="footer-nav" aria-label="Pied de page - liens">
+          <a href="index.html">Accueil</a>
+          <a href="blog.html" rel="noopener">Blogue</a>
+          <a href="portfolio.html">Scénarios</a>
+          <a href="projects.html" rel="noopener">Projets détaillés</a>
+          <a href="web.html" rel="noopener">Créations web</a>
+          <a href="services.html" rel="noopener">Mes services</a>
+          <a href="cv-generator.html">SaaS générateur de CV</a>
+        </nav>
+
+        <div>
+          <div style="margin-bottom:.6rem; color:var(--muted)">Contact rapide</div>
+          <div class="socials" role="list">
+            <a href="https://wa.me/243835175346" target="_blank" rel="noopener" aria-label="WhatsApp">
+  <i class="fab fa-whatsapp"></i>
+</a>
+
+<a href="mailto:elongastark@gmail.com" aria-label="Email">
+  <i class="fas fa-envelope"></i>
+</a>
+
+<a href="https://www.facebook.com/elongamumbere.stack" target="_blank" rel="noopener" aria-label="Facebook">
+  <i class="fab fa-facebook-f"></i>
+</a>
+
+<a href="https://myinstagram.com" target="_blank" rel="noopener" aria-label="Instagram">
+  <i class="fab fa-instagram"></i>
+</a>
+
+<a href="https://www.imdb.com/" target="_blank" rel="noopener" aria-label="IMDb">
+  <i class="fab fa-imdb"></i>
+</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="legal">
+        <div>© <span id="yearFooter"></span> Elonga Stark — Tous droits réservés · <a href="mentions.html" style="color:var(--muted)">Mentions légales</a></div>
+      </div>
+    </div>
+  </footer>
+  <script src="./javascript/index.js"></script>
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.5.0/firebase-app.js";
+import { getFirestore, collection, query, orderBy, onSnapshot, serverTimestamp, addDoc } from "https://www.gstatic.com/firebasejs/12.5.0/firebase-firestore.js";
+
+// --- Firebase Config ---
+const firebaseConfig = {
+  apiKey: "AIzaSyA3YY-YkJ4tfSiBF1I_M8UVhxyzfMN5238",
+  authDomain: "es-portfolio-a6c08.firebaseapp.com",
+  projectId: "es-portfolio-a6c08",
+  storageBucket: "es-portfolio-a6c08.firebasestorage.app",
+  messagingSenderId: "342830960639",
+  appId: "1:342830960639:web:be05ff6d2996dff20a21ca"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+const blogContainer = document.getElementById("blogPostsContainer");
+const categoryFilter = document.getElementById("categoryFilter");
+const tagFilter = document.getElementById("tagFilter");
+
+let postsData = [];
+
+// --- Récupération posts ---
+const postsRef = collection(db, "blog_posts");
+const postsQuery = query(postsRef, orderBy("date", "desc"));
+
+onSnapshot(postsQuery, (snapshot) => {
+  postsData = snapshot.docs.map(doc => doc.data());
+  renderPosts();
+}, (err) => {
+  blogContainer.innerHTML = "<p>Impossible de charger les posts pour le moment.</p>";
+  console.error(err);
+});
+
+// --- Filtrage ---
+function renderPosts() {
+  const categoryVal = categoryFilter.value;
+  const tagVal = tagFilter.value;
+
+  let filtered = postsData;
+
+  if (categoryVal) {
+    filtered = filtered.filter(p => p.category === categoryVal);
+  }
+
+  if (tagVal) {
+    filtered = filtered.filter(p => p.tags?.includes(tagVal));
+  }
+
+  blogContainer.innerHTML = filtered.map(data => `
+    <div class="post-card">
+      <h4>${data.title}</h4>
+      <div class="post-meta">${data.category} • ${data.date?.toDate().toLocaleDateString()}</div>
+      ${data.imageUrl ? `<img src="${data.imageUrl}" alt="${data.title}">` : ""}
+      <div class="post-content">${data.content}</div>
+      ${data.audioUrl ? `<audio controls src="${data.audioUrl}"></audio>` : ""}
+      ${data.tags && data.tags.length ? `<div class="post-tags">${data.tags.map(tag => `<span>${tag}</span>`).join('')}</div>` : ""}
+    </div>
+  `).join("") || "<p>Aucun post correspondant.</p>";
+}
+
+// --- Événements filtres ---
+categoryFilter.addEventListener("change", renderPosts);
+tagFilter.addEventListener("change", renderPosts);
+
+// --- Newsletter ---
+const newsletterForm = document.getElementById("newsletterForm");
+newsletterForm?.addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const name = newsletterForm.name.value.trim();
+  const email = newsletterForm.email.value.trim();
+  const number = newsletterForm.number.value.trim();
+  if (!name || !email || !number) return;
+  try {
+    await addDoc(collection(db, "users"), {
+      name, email, number, role: "visitor", date: serverTimestamp()
+    });
+    alert("Merci pour votre inscription !");
+    newsletterForm.reset();
+  } catch(err) {
+    console.error(err);
+    alert("Impossible de s'inscrire pour le moment.");
+  }
+});
+</script>
+</body>
+</html>
