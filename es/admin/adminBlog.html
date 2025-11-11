@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin Blog</title>
+  <style>
+    :root {
+      --bg-dark: #0b0f14;
+      --card-dark: #0f1720;
+      --text-light: #e6eef8;
+      --muted: #9fb2c8;
+      --accent-blue: #2aa4ff;
+      --radius: 12px;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: sans-serif;
+      background: var(--bg-dark);
+      color: var(--text-light);
+      padding: 1rem;
+    }
+    h1 { font-size: 1.4rem; margin-bottom: 1rem; }
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: .5rem;
+      background: var(--card-dark);
+      padding: 1rem;
+      border-radius: var(--radius);
+    }
+    input, textarea {
+      padding: .5rem;
+      border-radius: 8px;
+      border: 1px solid rgba(255,255,255,0.1);
+      background: rgba(255,255,255,0.02);
+      color: var(--text-light);
+    }
+    label { font-size: .85rem; color: var(--muted); }
+    .actions {
+      display: flex;
+      gap: .5rem;
+      margin-top: .5rem;
+    }
+    button {
+        cursor: pointer;
+      border-radius: 8px;
+      padding: .5rem 1rem;
+      font-weight: 600;
+      border: none;
+      background: var(--accent-blue);
+      color: #071523;
+    }
+    #totalCount {
+      margin-bottom: 1rem;
+      color: var(--muted);
+    }
+    .admin-nav {
+  background: #0f1720;
+  padding: 10px;
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+.admin-nav a {
+  color: #e6eef8;
+  text-decoration: none;
+  font-weight: 600;
+  padding: 6px 12px;
+  border-radius: 6px;
+  background: rgba(255,255,255,0.05);
+  transition: background 0.2s;
+}
+.admin-nav a:hover {
+  background: #2aa4ff;
+  color: #071523;
+}
+  </style>
+</head>
+<body>
+    <nav class="admin-nav">
+  <a href="admin.html">📁 Gestion Projets</a>
+  <a href="adminBlog.html">📝 Gestion Blog</a>
+</nav>
+  <h1>Admin - Articles du Blog</h1>
+    
+  <div id="totalCount">Chargement…</div>
+
+  <label>Numéro de l’article (count)</label>
+  <input id="searchCount" type="number" />
+  <button onclick="loadPost()">Sélec</button>
+
+  <form id="postForm">
+    <label>Titre</label>
+    <input id="title" type="text" />
+
+    <label>Contenu</label>
+    <textarea id="content" rows="5"></textarea>
+
+    <label>Image URL</label>
+    <input id="imageUrl" type="text" />
+
+    <label>Audio URL</label>
+    <input id="audioUrl" type="text" />
+
+    <label>Catégorie</label>
+    <input id="category" type="text" />
+
+    <label>Tags (séparés par des virgules)</label>
+    <input id="tags" type="text" />
+
+    <div class="actions">
+      <button type="button" onclick="addPost()">Ajouter</button>
+      <button type="button" onclick="updatePost()">Modifier</button>
+      <button type="button" onclick="deletePost()">Supprimer</button>
+    </div>
+  </form>
+
+ <script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.5.0/firebase-app.js";
+import {
+  getFirestore,
+  collection,
+  getDocs,
+  query,
+  where,
+  doc,
+  setDoc,
+  updateDoc,
+  deleteDoc,
+  Timestamp
+} from "https://www.gstatic.com/firebasejs/12.5.0/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyA3YY-YkJ4tfSiBF1I_M8UVhxyzfMN5238",
+  authDomain: "es-portfolio-a6c08.firebaseapp.com",
+  projectId: "es-portfolio-a6c08",
+  storageBucket: "es-portfolio-a6c08.appspot.com",
+  messagingSenderId: "342830960639",
+  appId: "1:342830960639:web:be05ff6d2996dff20a21ca"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+const colRef = collection(db, "blog_posts");
+
+const title = document.getElementById("title");
+const content = document.getElementById("content");
+const imageUrl = document.getElementById("imageUrl");
+const audioUrl = document.getElementById("audioUrl");
+const category = document.getElementById("category");
+const tags = document.getElementById("tags");
+const searchCount = document.getElementById("searchCount");
+const totalCount = document.getElementById("totalCount");
+
+let currentDocId = null;
+async function getMaxCount() {
+  const docsSnap = await getDocs(colRef);
+  let max = 0;
+  docsSnap.forEach(doc => {
+    const c = doc.data().count || 0;
+    if (c > max) max = c;
+  });
+  return max;
+}
+
+async function refreshTotal() {
+  const max = await getMaxCount();
+  totalCount.textContent = `Total : ${max} article(s)`;
+}
+
+window.loadPost = async function () {
+  const countVal = parseInt(searchCount.value);
+  if (!countVal) return alert("Entre un numéro valide");
+
+  const q = query(colRef, where("count", "==", countVal));
+  const snap = await getDocs(q);
+  if (snap.empty) {
+    alert("Aucun article trouvé");
+    return;
+  }
+
+  snap.forEach(docSnap => {
+    const data = docSnap.data();
+    currentDocId = docSnap.id;
+    title.value = data.title || "";
+    content.value = data.content || "";
+    imageUrl.value = data.imageUrl || "";
+    audioUrl.value = data.audioUrl || "";
+    category.value = data.category || "";
+    tags.value = (data.tags || []).join(", ");
+  });
+};
+
+window.addPost = async function () {
+  const max = await getMaxCount();
+  const newCount = max + 1;
+  const newDocRef = doc(colRef);
+
+  await setDoc(newDocRef, {
+    title: title.value,
+    content: content.value,
+    imageUrl: imageUrl.value,
+    audioUrl: audioUrl.value,
+    category: category.value,
+    tags: tags.value.split(",").map(t => t.trim()),
+    count: newCount,
+    date: Timestamp.now()
+  });
+
+  alert("Article ajouté !");
+  refreshTotal();
+};
+
+window.updatePost = async function () {
+  if (!currentDocId) return alert("Charge un article d’abord");
+
+  const ref = doc(colRef, currentDocId);
+  await updateDoc(ref, {
+    title: title.value,
+    content: content.value,
+    imageUrl: imageUrl.value,
+    audioUrl: audioUrl.value,
+    category: category.value,
+    tags: tags.value.split(",").map(t => t.trim())
+  });
+
+  alert("Article modifié !");
+};
+
+window.deletePost = async function () {
+  if (!currentDocId) return alert("Charge un article d’abord");
+
+  const ref = doc(colRef, currentDocId);
+  await deleteDoc(ref);
+  alert("Supprimé !");
+  currentDocId = null;
+  title.value = content.value = imageUrl.value = audioUrl.value = category.value = tags.value = "";
+  refreshTotal();
+};
+
+refreshTotal();
+ </script>
+</body>
+</html>
