@@ -15,6 +15,27 @@
     --accent-orange: #ff7a2d;
     --radius: 12px;
   }
+  .admin-nav {
+  background: #0f1720;
+  padding: 10px;
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+.admin-nav a {
+  color: #e6eef8;
+  text-decoration: none;
+  font-weight: 600;
+  padding: 6px 12px;
+  border-radius: 6px;
+  background: rgba(255,255,255,0.05);
+  transition: background 0.2s;
+}
+.admin-nav a:hover {
+  background: #2aa4ff;
+  color: #071523;
+}
   *{box-sizing:border-box;}
   body{margin:0; font-family:sans-serif; background:var(--bg-dark); color:var(--text-light); padding-top:64px;}
   header{position:fixed; top:0; width:100%; height:64px; background:rgba(15,23,32,0.95); display:flex; align-items:center; padding:0 1rem; z-index:1000;}
@@ -40,6 +61,11 @@
   <div class="logo">A</div>
   <h1>Admin Panel</h1>
 </header>
+
+  <nav class="admin-nav">
+  <a href="admin.html">📁 Gestion Projets</a>
+  <a href="adminBlog.html">📝 Gestion Blog</a>
+  </nav>
 
 <!-- Onglets -->
 <div class="tabs">
