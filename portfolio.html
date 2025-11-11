@@ -20,7 +20,6 @@
       --shadow: 0 8px 24px rgba(2,6,23,0.6);
     }
 
-
     *{box-sizing:border-box}
     html,body{height:100%}
     body{
@@ -348,12 +347,15 @@
       card.innerHTML = `
         <img src="${data.imageUrl}" alt="${data.title}">
         <div class="card-content">
-          <h4>${data.title}</h4>
+          <h3>${data.title}</h3></br>
+          <h4><i>${data.pitch}</i></h4>
+          </br></br>
+          <p>Synopsis : <br>${data.synopsis}</p>
           <p><strong>Type :</strong> ${data.type}<br>
              <strong>Genre :</strong> ${data.genre}<br>
              <strong>Année :</strong> ${data.year}<br>
              <strong>Statut :</strong> ${data.status}</p>
-          <p>${data.pitch}</p>
+             <p>Tags : ${data.tags}</p>
           <a class="btn-view" href="${data.videoUrl}" target="_blank">Voir la vidéo</a>
         </div>
       `;
