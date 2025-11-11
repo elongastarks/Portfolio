@@ -336,7 +336,7 @@ footer{
   
   const projectsRef = collection(db, "scenariste_projects");
 
-  const q = query(projectsRef, where("isPortfolio", "==", false), orderBy("highlightOrder"));
+  const q = query(projectsRef, where("isPortfolio", "==", false), orderBy("highlightOrder","asc"));
 
   onSnapshot(q, (snapshot) => {
     container.innerHTML = ""; 
