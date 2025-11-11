@@ -63,6 +63,7 @@
       <label>Tags (comma separated)</label><input type="text" id="scenariste-tags">
       <label>Image URL</label><input type="text" id="scenariste-imageUrl">
       <label>Video URL</label><input type="text" id="scenariste-videoUrl">
+      <label>Title</label><input type="text" id="scenariste-pitch" required>
       <label>Synopsis</label><textarea id="scenariste-synopsis"></textarea>
       <label><input type="checkbox" id="scenariste-isPortfolio"> Is Portfolio</label>
       <label>Highlight Order</label><input type="number" id="scenariste-highlightOrder">
@@ -223,6 +224,7 @@ function loadScenaristeProjects() {
         currentScenaristeId = docSnap.id;
         scenForm["scenariste-title"].value = d.title;
         scenForm["scenariste-type"].value = d.type;
+        scenForm["scenariste-pitch"].value = d.pitch;
         scenForm["scenariste-genre"].value = d.genre;
         scenForm["scenariste-year"].value = d.year;
         scenForm["scenariste-status"].value = d.status;
@@ -247,6 +249,7 @@ scenForm.addEventListener("submit", async (e) => {
   e.preventDefault();
   const data = {
     title: scenForm["scenariste-title"].value,
+    pitch: scenForm["scenariste-pitch"].value,
     type: scenForm["scenariste-type"].value,
     genre: scenForm["scenariste-genre"].value,
     year: Number(scenForm["scenariste-year"].value),
