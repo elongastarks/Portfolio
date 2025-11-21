@@ -206,6 +206,103 @@
     .card .title{ font-weight:700 }
     .card .meta{ color:var(--muted); font-size:.95rem }
 
+    .awards {
+  background: #0d1117;
+  padding: 50px 20px;
+  color: #fff;
+  text-align: center;
+}
+
+.awards h3 {
+  font-size: 1.7rem;
+  margin-bottom: 35px;
+}
+
+.awards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  gap: 25px;
+  padding: 0 10px;
+}
+
+.award-card {
+  background: #161b22;
+  border-radius: 18px;
+  padding: 18px;
+  box-shadow: 0 3px 10px rgba(255,255,255,0.06);
+  transition: 0.3s ease;
+}
+
+.award-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 6px 14px rgba(255,255,255,0.09);
+}
+
+.award-card img {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  border-radius: 14px;
+  margin-bottom: 12px;
+  border: 1px solid #222;
+}
+
+.award-card p {
+  font-size: 1rem;
+  color: #ffb347;
+  font-weight: 600;
+  }
+    .history-short {
+  background: #0d1117;
+  padding: 50px 20px;
+  color: #e3e3e3;
+  max-width: 900px;
+  margin: 50px auto;
+  border-radius: 16px;
+  box-shadow: 0 0 20px rgba(0, 140, 255, 0.08);
+  border-left: 4px solid #ff7b00;
+}
+
+.history-short h3 {
+  font-size: 1.8rem;
+  margin-bottom: 25px;
+  color: #ffffff;
+  text-align: center;
+}
+
+.history-short p {
+  line-height: 1.65;
+  margin-bottom: 18px;
+  font-size: 1rem;
+  color: #c9d1d9;
+}
+
+.history-short em {
+  color: #58a6ff;
+}
+
+.history-short strong {
+  color: #ff7b00;
+}
+
+.btn-history {
+  display: inline-block;
+  margin-top: 25px;
+  padding: 12px 22px;
+  background: linear-gradient(90deg, #007bff, #ff7b00);
+  color: #fff;
+  font-weight: 600;
+  border-radius: 10px;
+  text-decoration: none;
+  transition: 0.3s ease;
+  text-align: center;
+}
+
+.btn-history:hover {
+  opacity: 0.85;
+  transform: translateY(-2px);
+}
+
     footer{
       margin-top:2rem;
       background:linear-gradient(180deg,#071119 0%, rgba(7,16,25,0.9) 100%);
@@ -320,7 +417,11 @@
 
     <section id="about" class="about" aria-labelledby="about-title">
       <h3 id="about-title">À propos de moi</h3>
-      <p>Passionné par la narration et la conception, je crée des œuvres qui mêlent émotion et interaction. Scénariste et développeur, j'aime penser les récits comme des interfaces : chaque scène, chaque page doit guider et surprendre.</p>
+      <p>Je suis un créatif technicien à la croisée de deux mondes : le cinéma et le code.
+        Scénariste autodidacte, j’écris des histoires percutantes depuis 2023, avec plusieurs courts-métrages à mon actif dont certains primés à l’international.
+        En parallèle, je conçois des sites web modernes et expérimente avec des outils numériques innovants, allant de portfolios interactifs à des SaaS originaux.
+        Ma force ? Fusionner logique technique et sens artistique pour créer des projets porteurs de sens, ancrés dans la culture, l'émotion et la technologie.
+      </p>
     </section>
 
     <section id="projects" class="projects" aria-labelledby="projects-title">
@@ -350,6 +451,45 @@
           <div style="color:var(--muted)">souvent : Portfolio et SaaS</div>
         </article>
       </div>
+    </section>
+    <section class="awards">
+  <h3>Mes Awards & Certifications</h3>
+
+  <div class="awards-grid">
+    <div class="award-card">
+      <img src="MIFF.jpg" alt="MIFF Award">
+      <p>MIFF Award Winner 2024</p>
+    </div>
+
+    <div class="award-card">
+      <img src="TIFFI.jpg" alt="TIFFI Award">
+      <p>TIFFI Award Winner 2023</p>
+    </div>
+  </div>
+  </section>
+    <section class="history-short">
+  <h3>Parcours personnel et professionnel</h3>
+
+  <p>
+    Entre 2018 et 2022, j’ai suivi une formation en électronique au secondaire, à Butembo (Nord-Kivu, RDC), 
+    tout en me formant en autodidacte à la programmation Arduino et à l’informatique grâce à des cours en ligne.
+  </p>
+
+  <p>
+    En cinquième année, je découvre la poésie via le club culturel <em>MCH T+</em> 
+    (<em>Motivation - Conscience Humaine Talent Plus</em>). 
+    Classé troisième sur sept classes à mes débuts, je participe à plusieurs concours et rejoins 
+    la cinquième classe du club après mon deuxième concert.
+  </p>
+
+  <p>
+    En 2023, après l'ouverture d’un sous-club à Musienene, une rencontre m’inspire : 
+    <em>Nysete</em>, poétesse et psychologue, évoque son roman. 
+    Ce moment m’oriente vers l’écriture de scénarios. Quelques jours plus tard, une vidéo du scénariste 
+    <em>JOEL</em> me révèle les cinq documents essentiels d’un script. 
+    Le 17 décembre 2023, j’écris mon premier synopsis. Je me lance réellement en mars 2024.
+  </p>
+<a href="historique.html" class="btn-history">Voir l’historique complet →</a>
     </section>
   </main>
 
